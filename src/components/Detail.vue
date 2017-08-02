@@ -1,7 +1,15 @@
 <template>
   <div class="content-wrapper">
-
-	  <div id="map" style="width: 800px; height: 500px;"></div>
+	  	<div class='fullwidth'>
+			<header>
+				<div class="width flex">
+					<router-link to="/"><button class="mr-20">Go back</button></router-link>
+					<div class="inputwidth info"><label>Distance</label><span>{{distance}}</span></div>					
+					<div class="inputwidth info"><label>Duration</label><span>{{duration}}</span></div>					
+				</div>
+			</header>
+		  	<div id="map"></div>
+		</div>
   </div>
 </template>
 
@@ -10,6 +18,8 @@ export default {
     data () {
       	return {
 			id: this.$route.params["id"],
+			distance: "",
+			duration: "",
 			googleObj: google,
       	}
 	},
@@ -28,25 +38,49 @@ export default {
 		},
 
 		calculateAndDisplayRoute: function(directionsService, directionsDisplay) {
+			var self = this;
 			var o = this.$parent.routesList[this.id];
-			directionsService.route({
-				origin: o.from,
-				destination: o.to,
-				travelMode: 'DRIVING'
-			}, function(response, status) {
-				if(status === 'OK') {
-					directionsDisplay.setDirections(response);
-				} else {
-					window.alert('Directions request failed due to ' + status);
-				}
-			});
+			if(o!=undefined) {
+				directionsService.route({
+					origin: o.from,
+					destination: o.to,
+					travelMode: 'DRIVING'
+				}, function(response, status) {
+					if(status === 'OK') {
+						self.distance = response.routes[0].legs[0].distance.text;
+						var m = response.routes[0].legs[0].duration.text;
+						m = m.split(" "); m = m[0]; self.duration = m + " min";
+						directionsDisplay.setDirections(response);
+					} else {
+						window.alert('Directions request failed due to ' + status);
+					}
+				});
+			} else {
+
+			}
 		},
 	},
 	mounted: function () {
 		this.initMap();
+		/*if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+			};
+			console.log(pos);
+          }, function() {
+            //handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          //handleLocationError(false, infoWindow, map.getCenter());
+        }*/
 	  	//this.calculateAndDisplayRoute(directionsService, directionsDisplay);*/
 	}
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+	#map { width: 100%; height: calc(100% - 90px); }	
+</style>
