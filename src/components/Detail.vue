@@ -1,18 +1,12 @@
 <template>
   <div class="content-wrapper">
 
-	  <div id="map"></div>
+	  <div id="map" style="width: 800px; height: 500px;"></div>
   </div>
 </template>
 
 <script>
-function initMap() {
-	console.log("OK");
-}	
-</script>
-<script>
 export default {
-    name: 'hello',
     data () {
       	return {
 			id: this.$route.params["id"],
@@ -21,22 +15,15 @@ export default {
 	},
     methods: {
 		initMap: function() {
-			/*var google = this.googleObj;
+			var google = this.googleObj;
 			var directionsService = new google.maps.DirectionsService;
 			var directionsDisplay = new google.maps.DirectionsRenderer;
 			var map = new google.maps.Map(document.getElementById('map'), {
 				zoom: 7,
 				center: {lat: 41.85, lng: -87.65}
 			});
+			
 			directionsDisplay.setMap(map);
-			//this.calculateAndDisplayRoute(directionsService, directionsDisplay);
-			var directionsService = new google.maps.DirectionsService;
-			var directionsDisplay = new google.maps.DirectionsRenderer;
-			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom: 7,
-				center: {lat: 41.85, lng: -87.65}
-			});
-			//directionsDisplay.setMap(map);*/
 		},
 
 		/*calculateAndDisplayRoute: function(directionsService, directionsDisplay) {
