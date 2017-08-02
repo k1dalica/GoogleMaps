@@ -24,9 +24,10 @@ export default {
 			});
 			
 			directionsDisplay.setMap(map);
+			this.calculateAndDisplayRoute(directionsService, directionsDisplay);
 		},
 
-		/*calculateAndDisplayRoute: function(directionsService, directionsDisplay) {
+		calculateAndDisplayRoute: function(directionsService, directionsDisplay) {
 			var o = this.$parent.routesList[this.id];
 			directionsService.route({
 				origin: o.from,
@@ -39,7 +40,7 @@ export default {
 					window.alert('Directions request failed due to ' + status);
 				}
 			});
-		},*/
+		},
 	},
 	mounted: function () {
 		this.initMap();
