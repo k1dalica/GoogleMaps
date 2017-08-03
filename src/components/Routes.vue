@@ -13,14 +13,21 @@
         <div v-show="this.$parent.routesList.length == 0" class="error">
           You haven't added any routes yet.
         </div>
-        <table v-show="this.$parent.routesList.length > 0">
+        <ul v-show="this.$parent.routesList.length > 0">
+            <li v-for="(route, index) in this.$parent.routesList" :key="index">
+              <div class='col s1'>{{route.from}}</div>
+              <div class='col s1'>{{route.to}}</div>
+              <div class='col s2'><button v-on:click="viewRoute(index)" class="small mr">View route</button><i v-on:click="removeRoute(index)" class="icon delete"></i></div>
+            </li>
+        </ul>
+        <!--<table v-show="this.$parent.routesList.length > 0">
           <tr v-for="(route, index) in this.$parent.routesList" :key="index">
             <td>{{route.from}}</td>
             <td>{{route.to}}</td>
-            <td width="130"><button v-on:click="viewRoute(index)" class="small fixed-size">View route</button></td>
+            <td width="130"><button v-on:click="viewRoute(index)" class="small">View route</button></td>
             <td width="45"><i v-on:click="removeRoute(index)" class="icon delete"></i></td>
           </tr>
-        </table>
+        </table>-->
       </div>
     </div>
   </div>
@@ -56,8 +63,13 @@
         }
       },
       removeRoute: function(i) {
-        this.$parent.routesList.splice(i,1);
-        localStorage.setItem("routes", JSON.stringify(this.$parent.routesList));
+        this.$parent.popupOn = true;
+        this.$parent.deleteItem = true;
+        var name = this.$parent.routesList[i].from +" - "+ this.$parent.routesList[i].to;
+        this.$parent.messageTitle = "Delete route";
+        this.$parent.messageText = "Do you really want to delete this route: <br/><font color='#435271'>"+name+"</font>";
+        this.$parent.deleteId = i;
+        $('body').css("overflow","hidden");
       },
 
       viewRoute: function(i) {

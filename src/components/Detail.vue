@@ -3,7 +3,7 @@
 	  	<div class='fullwidth'>
 			<header>
 				<div class="width flex">
-					<router-link to="/"><button class="mr-20">Go back</button></router-link>
+					<router-link to="/"><button class="back mr-20">Go back</button></router-link>
 					<div class="inputwidth info"><label>Distance</label><span>{{distance}}</span></div>					
 					<div class="inputwidth info"><label>Duration</label><span>{{duration}}</span></div>					
 				</div>
@@ -17,10 +17,10 @@
 export default {
     data () {
       	return {
+			googleObj: google,
 			id: this.$route.params["id"],
 			distance: "",
 			duration: "",
-			googleObj: google,
       	}
 	},
     methods: {
@@ -48,15 +48,15 @@ export default {
 				}, function(response, status) {
 					if(status === 'OK') {
 						self.distance = response.routes[0].legs[0].distance.text;
-						var m = response.routes[0].legs[0].duration.text;
-						m = m.split(" "); m = m[0]; self.duration = m + " min";
+						self.duration = response.routes[0].legs[0].duration.text;
 						directionsDisplay.setDirections(response);
 					} else {
-						window.alert('Directions request failed due to ' + status);
+						self.$parent.showError("There was an error", "<font color='#e8525b'>"+status+"</font>");
 					}
 				});
 			} else {
-
+				//self.$parent.showError("There was an error", "Unknow route");
+				this.$router.push('/');
 			}
 		},
 	},
@@ -82,5 +82,8 @@ export default {
 </script>
 
 <style scoped>
-	#map { width: 100%; height: calc(100% - 90px); }	
+	#map { width: 100%; height: calc(100% - 90px); }
+	@media all and (max-width: 600px) {
+		#map { width: 100%; height: calc(100% - 200px); }
+	}
 </style>
