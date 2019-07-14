@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    test
     <transition name="fade" mode="out-in">
       <div id="popup" v-show="popupOn">
         <div id="popup-wrapper">
